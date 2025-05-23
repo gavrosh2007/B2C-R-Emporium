@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emporium Cars - Японские автомобили с пробегом</title>
+  <title>Emporium Cars - Подержанные автомобили</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,800;1,800&family=Roboto:wght@400;500;700&family=American+Typewriter:wght@400&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -43,7 +43,7 @@
       font-weight: 600;
       margin-bottom: 25px;
       color: inherit;
-      text-align: center; /* Центровка заголовка */
+      text-align: center;
     }
     h3 {
       font-family: 'Montserrat', sans-serif;
@@ -142,7 +142,7 @@
       margin-top: 20px;
     }
     .social-button {
-      background-color: #FFD700; /* Золотой цвет */
+      background-color: #FFD700;
       color: black;
       font-size: 18px;
       padding: 10px 20px;
@@ -152,8 +152,50 @@
       transition: all 0.3s ease;
     }
     .social-button:hover {
-      background-color: #d4d700; /* Светлее оттенок при наведении */
+      background-color: #d4d700;
     }
+    
+    /* Стили для модального окна */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .modal-image {
+      max-width: 90%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .no-photo {
+      color: white;
+      font-size: 24px;
+      margin-top: 20px;
+      text-align: center;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+    
     @media (max-width: 768px) {
       h1 {
         font-size: 2.5rem;
@@ -168,6 +210,9 @@
       .benefits-grid {
         grid-template-columns: 1fr;
       }
+      .no-photo {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -181,20 +226,34 @@
   </header>
 
   <div class="brand-logos">
-    <button class="brand-button">NISSAN</button>
-    <button class="brand-button">HONDA</button>
-    <button class="brand-button">MAZDA</button>
-    <button class="brand-button">TOYOTA</button>
-    <button class="brand-button">LEXUS</button>
-    <button class="brand-button">SUZUKI</button>
-    <button class="brand-button">MERCEDES</button>
-    <button class="brand-button">BMW</button>
-    <button class="brand-button">AUDI</button>
-    <button class="brand-button">JEEP</button>
-    <button class="brand-button">MINI</button>
-    <button class="brand-button">LAND ROVER</button>
-    <button class="brand-button">BENTLEY</button>
-    <button class="brand-button">ROLLS-ROYCE</button>
+    <button class="brand-button" data-brand="nissan">NISSAN</button>
+    <button class="brand-button" data-brand="honda">HONDA</button>
+    <button class="brand-button" data-brand="mazda">MAZDA</button>
+    <button class="brand-button" data-brand="toyota">TOYOTA</button>
+    <button class="brand-button" data-brand="lexus">LEXUS</button>
+    <button class="brand-button" data-brand="suzuki">SUZUKI</button>
+    <button class="brand-button" data-brand="mercedes">MERCEDES</button>
+    <button class="brand-button" data-brand="bmw">BMW</button>
+    <button class="brand-button" data-brand="audi">AUDI</button>
+    <button class="brand-button" data-brand="jeep">JEEP</button>
+    <button class="brand-button" data-brand="mini">MINI</button>
+    <button class="brand-button" data-brand="landrover">LAND ROVER</button>
+    <button class="brand-button" data-brand="bentley">BENTLEY</button>
+    <button class="brand-button" data-brand="rollsroyce">ROLLS-ROYCE</button>
+    <button class="brand-button" data-brand="7seater">СЕМИМЕСТНЫЙ АВТОБУС</button>
+  </div>
+
+  <!-- Модальное окно для фото -->
+  <div id="photoModal" class="modal">
+    <span class="close-btn">&times;</span>
+    <div class="modal-content">
+      <img id="modalImage" class="modal-image" src="" alt="Фото автомобиля" style="display: none;">
+      <div id="noPhotoMessage" class="no-photo">
+        С автомобилями можно познакомиться на нашей площадке.<br>
+        Уточнить локацию и другие детали можно по телефонам компании:<br><br>
+        <strong>77 77 77 23 | 99 66 99 52 | +357 99 994 006</strong>
+      </div>
+    </div>
   </div>
 
   <div class="section section-dark">
@@ -204,7 +263,7 @@
         <h3>Гарантия на все автомобили</h3>
         <ul>
           <li>Полная диагностика перед продажей</li>
-          <li>Подтвержденная история обслуживания</li>
+          <li>Проверенная история обслуживания</li>
           <li>Честное описание состояния</li>
         </ul>
       </div>
@@ -223,27 +282,26 @@
     <h2>Почему Emporium Cars</h2>
     <div class="benefits-grid">
       <div class="benefit-card" style="background: white;">
-        <h3>Подержанные vs Новые</h3>
+        <h3>Подержанные vs новые</h3>
         <ul>
           <li>Нет переплаты за "первого владельца"</li>
-          <li>Минимальная потеря стоимости</li>
-          <li>Уже устранены заводские недочеты</li>
+          <li>Минимальная потеря в цене</li>
+          <li>Заводские дефекты уже устранены</li>
         </ul>
       </div>
       <div class="benefit-card" style="background: white;">
-        <h3>Покупка vs Лизинг</h3>
+        <h3>Покупка vs лизинг</h3>
         <ul>
-          <li>Вы — полноправный владелец</li>
-          <li>Никаких ограничений по пробегу</li>
+          <li>Вы - полноправный владелец</li>
+          <li>Нет ограничений по пробегу</li>
           <li>Свобода выбора сервиса</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- Социальные сети -->
   <div class="section">
-    <h2>Следите за нами в социальных сетях</h2>
+    <h2>Мы в социальных сетях</h2>
     <div class="social-links">
       <a href="https://www.facebook.com/EmporiumCars/" target="_blank" class="social-button">Facebook</a>
       <a href="https://www.instagram.com/emporium_cars/?hl=en" target="_blank" class="social-button">Instagram</a>
@@ -253,9 +311,39 @@
   </div>
 
   <footer>
-    <p style="font-size: 1.3rem; margin-bottom: 15px;">© 2023 Emporium Cars | Автомобили с пробегом</p>
-    <p>Телефон: 77 77 77 23 | 99 66 99 52</p>
-    <p>Адрес: Лимассол, Кипр</p>
+    <p>© 2023 Emporium Cars. Все права защищены.</p>
+    <p>Лимассол, Кипр | Телефон: 77 77 77 23 | 99 66 99 52 | +357 99 994 006</p>
   </footer>
+
+  <script>
+    // JavaScript для модального окна
+    const modal = document.getElementById('photoModal');
+    const modalImg = document.getElementById('modalImage');
+    const noPhotoMsg = document.getElementById('noPhotoMessage');
+    const closeBtn = document.querySelector('.close-btn');
+    const brandButtons = document.querySelectorAll('.brand-button');
+
+    // Обработчики для кнопок брендов
+    brandButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const brand = this.getAttribute('data-brand');
+        modalImg.style.display = 'none';
+        noPhotoMsg.style.display = 'block';
+        modal.style.display = 'block';
+      });
+    });
+
+    // Закрытие модального окна
+    closeBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+    });
+
+    // Закрытие при клике вне изображения
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
